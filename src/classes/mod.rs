@@ -1,2 +1,2 @@
-mod polynomial;
-mod term;
+pub mod polynomial;
+pub mod term;
