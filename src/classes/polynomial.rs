@@ -1,10 +1,12 @@
+use super::calculus::Calculus;
+use super::term::Term;
+
 pub struct Polynomial {
-  pub terms: (box Term)[],
+  pub terms: Vec<Box<Term>>,
 }
 
-
 impl Polynomial {
-  pub fn new(terms: (box Term)[]) -> Polynomial {
+  pub fn new(terms: Vec<Box<Term>>) -> Polynomial {
     Polynomial {
       terms
     }
