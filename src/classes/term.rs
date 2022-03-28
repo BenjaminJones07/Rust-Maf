@@ -13,11 +13,11 @@ impl Term {
 
 impl Calculus for Term {
   fn integral(&self) -> Box<Self> {
-    Term::new(self.coef / (self.exp + 1f64), self.exp + 1f64)
+    Term::new(self.coef / (self.exp + 1f64), self.exp + 1f64) // ax^n -> (a/n)x^(n+1)
   }
 
   fn derivative(&self) -> Box<Self> {
-    Term::new(self.coef * self.exp, self.exp - 1f64)
+    Term::new(self.coef * self.exp, self.exp - 1f64) // ax^n -> ax^(n-1)
   }
 }
 
