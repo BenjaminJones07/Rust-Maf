@@ -1,3 +1,7 @@
+pub mod calculus;
 pub mod polynomial;
 pub mod term;
-pub mod calculus;
+
+pub use calculus::*;
+pub use polynomial::*;
+pub use term::*;
