@@ -1,6 +1,9 @@
 pub trait Calculus {
-    fn integral(&self) -> Box<Self>;
-    fn derivative(&self) -> Box<Self>;
+    type DReturn;
+    type IReturn;
+
+    fn integral(&self) -> Box<Self::IReturn>;
+    fn derivative(&self) -> Box<Self::DReturn>;
 }
 
 pub trait Expression {
