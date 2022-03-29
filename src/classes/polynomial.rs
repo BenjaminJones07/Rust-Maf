@@ -1,5 +1,5 @@
-use super::Calculus;
-use super::Term;
+use super::traits::{Calculus, Expression};
+use super::term::Term;
 
 pub struct Polynomial {
   pub terms: Vec<Box<Term>>,
@@ -31,6 +31,15 @@ impl Calculus for Polynomial {
         .collect::<Vec<Box<Term>>>(),
     )
   }
+}
+
+impl Expression for Polynomial {
+    fn evaluate(&self, v: f64) -> f64 {
+        self.terms
+            .iter()
+            .map(|x| x.evaluate(v))
+            .sum()
+    }
 }
 
 impl std::fmt::Display for Polynomial {

@@ -1,7 +1,7 @@
-pub mod calculus;
+pub mod traits;
 pub mod polynomial;
 pub mod term;
 
-pub use calculus::*;
-pub use polynomial::*;
+pub use traits::*;
 pub use term::*;
+pub use polynomial::*;

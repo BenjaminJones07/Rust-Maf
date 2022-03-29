@@ -1,5 +1,4 @@
 {
-    "cSpell.words": ["coef"],
     "files.exclude": {
         "**/.git": false,
         "**/.svn": true,
@@ -11,6 +10,5 @@
         "**/.project": true,
         "**/.settings": true,
         "**/.factorypath": true
-    },
-    "explorerExclude.backup": null
+    }
 }

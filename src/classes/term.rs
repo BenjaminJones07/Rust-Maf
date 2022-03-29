@@ -1,4 +1,4 @@
-use super::calculus::Calculus;
+use super::traits::{Calculus, Expression};
 
 pub struct Term {
   pub coef: f64, // negative coefficient makes the term is negative
@@ -21,6 +21,12 @@ impl Calculus for Term {
   }
 }
 
+impl Expression for Term {
+    fn evaluate(&self, x: f64) -> f64 {
+        self.coef * x.powf(self.exp)
+    }
+}
+
 impl std::fmt::Display for Term {
   fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
     if self.coef == 0f64 {
@@ -41,4 +47,10 @@ impl std::fmt::Display for Term {
       write!(f, "{}x^{}", self.coef, self.exp)
     }
   }
+}
+
+impl std::fmt::Debug for Term {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        std::fmt::Display::fmt(&self, f)
+    }
 }
