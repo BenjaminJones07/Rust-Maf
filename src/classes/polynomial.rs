@@ -46,7 +46,6 @@ impl std::fmt::Display for Polynomial {
   fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
     if self.terms.len() == 0 {
       write!(f, "0")
-    } else {
       Ok(for term in 0..self.terms.len() {
         if term == 0 {
           write!(f, "{:#}", self.terms[term])?
