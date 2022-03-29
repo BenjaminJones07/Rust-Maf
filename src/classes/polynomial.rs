@@ -1,6 +1,7 @@
 use super::Calculus;
 use super::Term;
 
+#[derive(Debug)]
 pub struct Polynomial {
     pub terms: Vec<Box<Term>>,
 }

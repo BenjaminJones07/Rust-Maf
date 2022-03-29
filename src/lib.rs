@@ -7,12 +7,12 @@ mod tests {
   #[test]
   fn test() {
     let t = Term::new(1f64, 1f64);
-    println!("{:#}", t);
+    println!("{:?}", t);
     assert_eq!(1, 1)
   }
 
   #[test]
-  fn printing() {
+  fn printing() { 
     let t = Polynomial::new(vec![
       Term::new(0f64, 0f64),
       Term::new(1f64, 0f64),
