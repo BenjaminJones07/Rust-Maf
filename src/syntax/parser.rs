@@ -126,3 +126,8 @@ impl Parser {
         self.polynomial()
     }
 }
+
+pub fn parse(input: String) -> Box<Polynomial> {
+    let mut parser = Parser::new(input);
+    parser.parse()
+}
