@@ -6,6 +6,8 @@ pub struct Term<T> {
   pub exp: f64,  // for sqrt use 1/2
 }
 
+impl Maf for Term {}
+
 impl<T> Term<T>
 where
   T: Expression + Calculus + std::fmt::Display

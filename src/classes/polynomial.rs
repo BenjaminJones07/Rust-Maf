@@ -8,6 +8,8 @@ where
   pub terms: Vec<Box<Term<T>>>,
 }
 
+impl Maf for Polonomial {}
+
 impl<T> Polynomial<T>
 where
   T: Expression + Calculus + std::fmt::Display + std::ops::Neg

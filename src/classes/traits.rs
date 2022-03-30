@@ -1,11 +1,10 @@
 pub trait Calculus {
-    type DReturn;
-    type IReturn;
-
-    fn integral(&self) -> Box<Self::IReturn>;
-    fn derivative(&self) -> Box<Self::DReturn>;
+    fn integral(&self) -> Box<dyn Maf>;
+    fn derivative(&self) -> Box<dyn Maf>;
 }
 
 pub trait Expression {
     fn evaluate(&self, x: f64) -> f64;
 }
+
+pub trait Maf: std::fmt::Display + std::ops::Neg<Output=Self> where Self: std::marker::Sized {}
