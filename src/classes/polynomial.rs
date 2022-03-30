@@ -1,47 +1,63 @@
 use super::{Calculus, Expression, Maf};
-use super::Term;
 
 pub struct Polynomial {
-  pub terms: Vec<Box<Term>>,
+  pub terms: Vec<Box<dyn Maf>>,
 }
 
-impl Maf for Polynomial {}
+impl Maf for Polynomial {
+  fn neg(&self) -> Box<dyn Maf> {
+    Polynomial::new(
+      self
+        .terms
+        .iter()
+        .map(|x| x.neg())
+        .collect::<Vec<Box<dyn Maf>>>(),
+    )
+  }
+
+  fn cloned(&self) -> Box<dyn Maf> {
+    Polynomial::new(
+      self
+        .terms
+        .iter()
+        .map(|x| x.cloned())
+        .collect::<Vec<Box<dyn Maf>>>(),
+    )
+  }
+}
 
 impl Polynomial {
-  pub fn new(terms: Vec<Box<Term>>) -> Box<Polynomial> {
+  pub fn new(terms: Vec<Box<dyn Maf>>) -> Box<Polynomial> {
     Box::new(Polynomial { terms })
   }
 }
 
 impl Calculus for Polynomial {
-  fn integral(&self) -> Box<Self> {
+  fn integral(&self) -> Box<dyn Maf> {
     Polynomial::new(
       self
         .terms
         .iter()
         .map(|x| x.integral())
-        .collect::<Vec<Box<Term>>>(),
+        .collect::<Vec<Box<dyn Maf>>>(),
     )
   }
 
-  fn derivative(&self) -> Box<Self> {
+  fn derivative(&self) -> Box<dyn Maf> {
     Polynomial::new(
       self
         .terms
         .iter()
         .map(|x| x.derivative())
-        .collect::<Vec<Box<Term<T>>>>(),
+        .collect::<Vec<Box<dyn Maf>>>(),
     )
   }
 }
 
 impl Expression for Polynomial {
-    fn evaluate(&self, v: f64) -> f64 {
-        self.terms
-            .iter()
-            .map(|x| x.evaluate(v))
-            .sum()
-    }
+  fn evaluate(&self, v: f64) -> f64 {
+    self.terms.iter().map(|x| x.evaluate(v)).sum()
+  }
 }
 
 impl std::fmt::Display for Polynomial {

@@ -1,5 +1,5 @@
 use super::{
-    super::classes::{Polynomial, Term},
+    super::classes::{Maf, Polynomial, Term},
     Lexer, Token, TokenKind,
 };
 
@@ -80,7 +80,7 @@ impl Parser {
     //   node
     // }
 
-    fn term(&mut self, negative: bool) -> Box<Term> {
+    fn term(&mut self, negative: bool) -> Box<dyn Maf> {
         let mut coef = 1f64;
         if negative {
             coef = -1f64;
@@ -102,11 +102,11 @@ impl Parser {
             }
         }
 
-        Term::new(coef, exp)
+        Term::new(coef, vec![], exp)
     }
 
     fn polynomial(&mut self) -> Box<Polynomial> {
-        let mut node: Vec<Box<Term>> = vec![self.term(false)];
+        let mut node: Vec<Box<dyn Maf>> = vec![self.term(false)];
 
         while [TokenKind::Add, TokenKind::Subtract].contains(&self.current_token.kind) {
             let token = self.current_token.clone();

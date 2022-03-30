@@ -7,5 +7,7 @@ pub trait Expression {
     fn evaluate(&self, x: f64) -> f64;
 }
 
-pub trait miniMaf: Expression + Calculus + std::fmt::Display {}
-pub trait Maf: miniMaf + std::ops::Neg<Output=Box<dyn miniMaf>> {}
+pub trait Maf: Expression + Calculus + std::fmt::Display {
+    fn neg(&self) -> Box<dyn Maf>;
+    fn cloned(&self) -> Box<dyn Maf>;
+}
