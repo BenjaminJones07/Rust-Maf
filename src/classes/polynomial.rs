@@ -1,5 +1,5 @@
-use super::traits::{Calculus, Expression};
-use super::term::Term;
+use super::{Calculus, Expression, Maf};
+use super::Term;
 
 pub struct Polynomial {
   pub terms: Vec<Box<Term>>,
