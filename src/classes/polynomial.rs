@@ -1,28 +1,19 @@
 use super::traits::{Calculus, Expression};
 use super::term::Term;
 
-pub struct Polynomial<T>
-where
-  T: Expression + Calculus + std::fmt::Display + std::ops::Neg
-{
-  pub terms: Vec<Box<Term<T>>>,
+pub struct Polynomial {
+  pub terms: Vec<Box<Term>>,
 }
 
 impl Maf for Polonomial {}
 
-impl<T> Polynomial<T>
-where
-  T: Expression + Calculus + std::fmt::Display + std::ops::Neg
-{
-  pub fn new(terms: Vec<Box<Term<T>>>) -> Box<Polynomial<T>> {
+impl Polynomial {
+  pub fn new(terms: Vec<Box<Term>>) -> Box<Polynomial> {
     Box::new(Polynomial { terms })
   }
 }
 
-impl<T> Calculus for Polynomial<T>
-where
-  T: Expression + Calculus + std::fmt::Display + std::ops::Neg
-{
+impl Calculus for Polynomial {
   fn integral(&self) -> Box<Self> {
     Polynomial::new(
       self
@@ -44,10 +35,7 @@ where
   }
 }
 
-impl<T> Expression for Polynomial<T>
-where
-  T: Expression + Calculus + std::fmt::Display + std::ops::Neg
-{
+impl Expression for Polynomial {
     fn evaluate(&self, v: f64) -> f64 {
         self.terms
             .iter()
@@ -56,10 +44,7 @@ where
     }
 }
 
-impl<T> std::fmt::Display for Polynomial<T>
-where
-  T: Expression + Calculus + std::fmt::Display + std::ops::Neg
-{
+impl std::fmt::Display for Polynomial {
   fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
     if self.terms.len() == 0 {
       write!(f, "0")

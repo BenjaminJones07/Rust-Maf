@@ -7,4 +7,4 @@ pub trait Expression {
     fn evaluate(&self, x: f64) -> f64;
 }
 
-pub trait Maf: std::fmt::Display + std::ops::Neg<Output=Self> where Self: std::marker::Sized {}
+pub trait Maf: Expression + Calculus + std::fmt::Display + std::ops::Neg<Output=Self> where Self: std::marker::Sized {}
