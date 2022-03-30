@@ -5,7 +5,7 @@ pub struct Polynomial {
   pub terms: Vec<Box<Term>>,
 }
 
-impl Maf for Polonomial {}
+impl Maf for Polynomial {}
 
 impl Polynomial {
   pub fn new(terms: Vec<Box<Term>>) -> Box<Polynomial> {
@@ -20,7 +20,7 @@ impl Calculus for Polynomial {
         .terms
         .iter()
         .map(|x| x.integral())
-        .collect::<Vec<Box<Term<T>>>>(),
+        .collect::<Vec<Box<Term>>>(),
     )
   }
 
