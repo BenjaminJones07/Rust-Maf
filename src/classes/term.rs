@@ -1,4 +1,4 @@
-use super::traits::{Calculus, Expression};
+use super::{Calculus, Expression, Maf};
 
 pub struct Term<T> {
   pub coef: f64, // negative coefficient makes the term is negative
