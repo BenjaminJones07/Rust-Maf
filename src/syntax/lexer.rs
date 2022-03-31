@@ -90,6 +90,13 @@ impl Lexer {
         lexer
     }
 
+    pub fn peek(&mut self) -> Token {
+        let pos = self.position.clone();
+        let token = self.get_next_token();
+        self.position = pos;
+        token
+    }
+
     // method to call for lexing errors
     fn error(&self, msg: String) -> ! {
         panic!("{}", msg)
@@ -137,7 +144,7 @@ impl Lexer {
 
     fn identifier(&mut self) -> String {
         let mut result = String::new();
-        while self.current_char.unwrap().is_alphabetic() {
+        while self.current_char.unwrap_or_else(|| ' ').is_alphabetic() {
             result += &self.current_char.unwrap().to_string();
             self.advance();
         }
