@@ -38,49 +38,7 @@ impl Parser {
         }
     }
 
-    // fn factor(&mut self) -> Box<AST> {
-    //   let token = self.current_token.clone();
-    //   let mut node: Box<AST>;
-    //   if token.kind == TokenKind::Add {
-    //     self.eat(TokenKind::Add);
-    //     node = Box::new(AST::Unary(Unary {
-    //       sign: Sign::Add,
-    //       unary: self.factor(),
-    //     }));
-    //   } else if token.kind == TokenKind::Subtract {
-    //     self.eat(TokenKind::Subtract);
-    //     node = Box::new(AST::Unary(Unary {
-    //       sign: Sign::Sub,
-    //       unary: self.factor(),
-    //     }));
-    //   } else if token.kind == TokenKind::Number {
-    //     self.eat(TokenKind::Number);
-    //     node = Box::new(AST::Number(token.value.parse().unwrap()));
-    //   } else if token.kind == TokenKind::LeftParen {
-    //     self.eat(TokenKind::LeftParen);
-    //     node = self.polynomial();
-    //     self.eat(TokenKind::RightParen);
-    //   } else {
-    //     self.error(format!(
-    //       "SyntaxError: Unexpected {:?}: '{}' at position {}:{}",
-    //       self.current_token.kind.clone(),
-    //       self.current_token.value.clone(),
-    //       self.current_token.position.human.line.clone(),
-    //       self.current_token.position.human.column.clone(),
-    //     ));
-    //   }
-    //   if self.current_token.kind == TokenKind::Power {
-    //     self.eat(TokenKind::Power);
-    //     node = Box::new(AST::Index(Index {
-    //       sign: Sign::Pow,
-    //       index: (node, self.factor()),
-    //     }));
-    //   }
-
-    //   node
-    // }
-
-    fn term(&mut self, negative: bool) -> Box<dyn Maf> {
+    fn term(&mut self, negative: bool) -> Box<Term> {
         let mut coef = 1f64;
         if negative {
             coef = -1f64;
@@ -91,15 +49,40 @@ impl Parser {
             self.eat(TokenKind::Number);
             coef *= token.value.parse::<f64>().unwrap();
         }
-        let token = self.current_token.clone();
-        if token.kind == TokenKind::Identifier && token.value == "x" {
-            self.eat(TokenKind::Identifier);
-            exp = 1f64;
-            if self.current_token.kind == TokenKind::Power {
-                self.eat(TokenKind::Power);
-                exp = self.current_token.value.parse::<f64>().unwrap();
-                self.eat(TokenKind::Number);
+        let mut token = self.current_token.clone();
+        while token.kind == TokenKind::Identifier {
+            if ["x".to_string(), "y".to_string(), "z".to_string()].contains(&token.value) {
+                self.eat(TokenKind::Identifier);
+                exp = 1f64;
+                if self.current_token.kind == TokenKind::Power {
+                    self.eat(TokenKind::Power);
+                    exp = self.current_token.value.parse::<f64>().unwrap();
+                    self.eat(TokenKind::Number);
+                }
+            } else if ["pi".to_string(), "e".to_string(), "i".to_string()].contains(&token.value) {
+                println!("constant: {}", token.value);
+                self.eat(TokenKind::Identifier);
+                exp = 1f64;
+                if self.current_token.kind == TokenKind::Power {
+                    self.eat(TokenKind::Power);
+                    exp = self.current_token.value.parse::<f64>().unwrap();
+                    self.eat(TokenKind::Number);
+                }
+                // TODO: Something with consts
+            } else if ["sin".to_string(), "cos".to_string(), "tan".to_string(), "cot".to_string(), "sec".to_string(), "csc".to_string()].contains(&token.value) && self.lexer.peek().kind == TokenKind::LeftParen {
+                println!("function: {}", token.value);
+                self.eat(TokenKind::Identifier);
+                exp = 1f64;
+                if self.current_token.kind == TokenKind::Power {
+                    self.eat(TokenKind::Power);
+                    exp = self.current_token.value.parse::<f64>().unwrap();
+                    self.eat(TokenKind::Number);
+                }
+                self.eat(TokenKind::LeftParen);
+                self.eat(TokenKind::RightParen);
+                // TODO: Something with functions
             }
+            token = self.current_token.clone();
         }
 
         Term::new(coef, vec![], exp)
