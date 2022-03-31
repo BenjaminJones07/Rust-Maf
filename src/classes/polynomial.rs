@@ -55,8 +55,8 @@ impl Calculus for Polynomial {
 }
 
 impl Expression for Polynomial {
-  fn evaluate(&self, v: f64) -> f64 {
-    self.terms.iter().map(|x| x.evaluate(v)).sum()
+  fn evaluate(&self, x: f64, y:f64, z: f64) -> f64 {
+    self.terms.iter().map(|t| t.evaluate(x, y, z)).sum()
   }
 }
 

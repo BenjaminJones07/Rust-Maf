@@ -49,8 +49,10 @@ impl Calculus for Term {
 }
 
 impl Expression for Term {
-  fn evaluate(&self, x: f64) -> f64 {
-    self.coef * x.powf(self.exp)
+  fn evaluate(&self, x: f64, y: f64, z: f64) -> f64 {
+    let mut v: f64 = 0f64
+    self.vf.iter().map(|t| v *= t.evaluate(x, y, z)).collect()
+    self.coef * v.powf(self.exp)
   }
 }
 

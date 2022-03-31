@@ -4,7 +4,7 @@ pub trait Calculus {
 }
 
 pub trait Expression {
-    fn evaluate(&self, x: f64) -> f64;
+    fn evaluate(&self, x: f64, y: f64, z: f64) -> f64;
 }
 
 pub trait Maf: Expression + Calculus + std::fmt::Display {

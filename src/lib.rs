@@ -2,7 +2,7 @@ mod classes;
 
 #[cfg(test)]
 mod tests {
-  use crate::classes::{Calculus, Polynomial, Term, VarFunc};
+  use crate::classes::{Calculus, Polynomial, Term, Trig};
 
   #[test]
   fn test1() {
@@ -26,7 +26,7 @@ mod tests {
   #[test]
   fn trig() {
     let t = Term::new(1f64, vec![], 3f64);
-    let s = VarFunc::Sin(t);
+    let s = Trig::Sin(t);
     println!("{:#}", s);
   }
 }
