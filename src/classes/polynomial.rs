@@ -1,5 +1,6 @@
 use super::{Calculus, Expression, Maf};
 
+#[derive(Debug)]
 pub struct Polynomial {
   pub terms: Vec<Box<dyn Maf>>,
 }
@@ -65,16 +66,16 @@ impl std::fmt::Display for Polynomial {
     if self.terms.len() == 0 {
       write!(f, "0")
     } else {
-      let mut s = String::new();
-      for term in 0..self.terms.len() {
-        if term == 0 {
-          //write!(s, "{:#}", self.terms[term]);
-          s.push_str(format!("{:#}", self.terms[term]).as_str());
-        } else {
-          s.push_str(format!(" + {:#}", self.terms[term]).as_str());
-        }
-      }
-      write!(f, "{}", s)
+      write!(
+        f,
+        "{}",
+        self
+          .terms
+          .iter()
+          .map(|x| format!("{:#}", x))
+          .collect::<Vec<String>>()
+          .join(" + ")
+      )
     }
   }
 }

@@ -1,5 +1,5 @@
 use super::{
-    super::classes::{Maf, Polynomial, Term},
+    super::classes::{Consts, Maf, Polynomial, Term, Values, Vars},
     Lexer, Token, TokenKind,
 };
 
@@ -44,6 +44,7 @@ impl Parser {
             coef = -1f64;
         }
         let mut exp = 0f64;
+        let mut vf: Vec<Box<dyn Maf>> = vec![];
         let token = self.current_token.clone();
         if token.kind == TokenKind::Number {
             self.eat(TokenKind::Number);
@@ -51,25 +52,37 @@ impl Parser {
         }
         let mut token = self.current_token.clone();
         while token.kind == TokenKind::Identifier {
-            if ["x".to_string(), "y".to_string(), "z".to_string()].contains(&token.value) {
+            if Vars::names().contains(&token.value) {
                 self.eat(TokenKind::Identifier);
                 exp = 1f64;
+                vf.push(Box::new(Values::Variable(Vars::from(token.value))));
                 if self.current_token.kind == TokenKind::Power {
                     self.eat(TokenKind::Power);
                     exp = self.current_token.value.parse::<f64>().unwrap();
                     self.eat(TokenKind::Number);
                 }
-            } else if ["pi".to_string(), "e".to_string(), "i".to_string()].contains(&token.value) {
+            } else if Consts::names().contains(&token.value) {
                 println!("constant: {}", token.value);
                 self.eat(TokenKind::Identifier);
                 exp = 1f64;
+                vf.push(Box::new(Values::Constant(Consts::from(token.value))));
                 if self.current_token.kind == TokenKind::Power {
                     self.eat(TokenKind::Power);
                     exp = self.current_token.value.parse::<f64>().unwrap();
                     self.eat(TokenKind::Number);
                 }
                 // TODO: Something with consts
-            } else if ["sin".to_string(), "cos".to_string(), "tan".to_string(), "cot".to_string(), "sec".to_string(), "csc".to_string()].contains(&token.value) && self.lexer.peek().kind == TokenKind::LeftParen {
+            } else if [
+                "sin".to_string(),
+                "cos".to_string(),
+                "tan".to_string(),
+                "cot".to_string(),
+                "sec".to_string(),
+                "csc".to_string(),
+            ]
+            .contains(&token.value)
+                && self.lexer.peek().kind == TokenKind::LeftParen
+            {
                 println!("function: {}", token.value);
                 self.eat(TokenKind::Identifier);
                 exp = 1f64;
@@ -85,7 +98,7 @@ impl Parser {
             token = self.current_token.clone();
         }
 
-        Term::new(coef, vec![], exp)
+        Term::new(coef, vf, exp)
     }
 
     fn polynomial(&mut self) -> Box<Polynomial> {

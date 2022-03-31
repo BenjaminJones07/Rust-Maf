@@ -1,6 +1,6 @@
-
 use super::{Calculus, Expression, Maf, Term};
 
+#[derive(Debug)]
 pub enum Trig {
     Sin(Box<dyn Maf>),
     Cos(Box<dyn Maf>),
@@ -13,12 +13,12 @@ pub enum Trig {
 impl Maf for Trig {
     fn neg(&self) -> Box<dyn Maf> {
         match self {
-            Trig::Sin(x) => Term::new(-Box::new(Trig::Cos(x)), 1f64),
-            Trig::Cos(x) => Box::new(Trig::Sin(x.neg())),
-            Trig::Tan(x) => Box::new(Trig::Cot(x.neg())),
-            Trig::Cot(x) => Box::new(Trig::Tan(x.neg())),
-            Trig::Sec(x) => Box::new(Trig::Csc(x.neg())),
-            Trig::Csc(x) => Box::new(Trig::Sec(x.neg())),
+            Trig::Sin(x) => Term::new(-1f64, vec![Box::new(Trig::Sin(x.cloned()))], 1f64),
+            Trig::Cos(x) => Term::new(-1f64, vec![Box::new(Trig::Cos(x.cloned()))], 1f64),
+            Trig::Tan(x) => Term::new(-1f64, vec![Box::new(Trig::Tan(x.cloned()))], 1f64),
+            Trig::Cot(x) => Term::new(-1f64, vec![Box::new(Trig::Cot(x.cloned()))], 1f64),
+            Trig::Sec(x) => Term::new(-1f64, vec![Box::new(Trig::Sec(x.cloned()))], 1f64),
+            Trig::Csc(x) => Term::new(-1f64, vec![Box::new(Trig::Csc(x.cloned()))], 1f64),
         }
     }
 
@@ -39,14 +39,20 @@ impl Calculus for Trig {
         match self {
             Trig::Sin(v) => Term::new(
                 1f64,
-                vec![
-                    Term::new(1f64, Box::new(Trig::Cos(v.cloned())), 1f64)
-                ],
-                1f64
+                vec![Term::new(1f64, vec![Box::new(Trig::Cos(v.cloned()))], 1f64)],
+                1f64,
             ),
-            Trig::Cos(v) => Term::new(-1f64, vec![Tern::new(1f64, vec![Box::new(Trig::Sin(v.cloned()))], 1f64),
-            Trig::Tan(v) => Term::new(1f64, vec![Term::new(1f64, vec![Box::new(Trig::Sec(v.cloned()))], 2f64)], 1f64),
-            Trig::Cot(v) => Term::new(-1f64, vec![Term::new(1f64, vec![Box::new(Trig::Csc(v.cloned()))], 2f64)], 1f64),
+            Trig::Cos(v) => Term::new(-1f64, vec![Box::new(Trig::Sin(v.cloned()))], 1f64),
+            Trig::Tan(v) => Term::new(
+                1f64,
+                vec![Term::new(1f64, vec![Box::new(Trig::Sec(v.cloned()))], 2f64)],
+                1f64,
+            ),
+            Trig::Cot(v) => Term::new(
+                -1f64,
+                vec![Term::new(1f64, vec![Box::new(Trig::Csc(v.cloned()))], 2f64)],
+                1f64,
+            ),
             Trig::Sec(v) => Term::new(
                 1f64,
                 vec![
@@ -86,7 +92,7 @@ impl Expression for Trig {
             Trig::Tan(v) => v.evaluate(x, y, z).tan(),
             Trig::Cot(v) => v.evaluate(x, y, z).tan().powf(-1f64),
             Trig::Sec(v) => v.evaluate(x, y, z).cos().powf(-1f64),
-            Trig::Csc(v) => v.evaluate(x, y, z).sin().powf(-1f64)
+            Trig::Csc(v) => v.evaluate(x, y, z).sin().powf(-1f64),
         }
     }
 }
