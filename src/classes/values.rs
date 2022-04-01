@@ -85,6 +85,18 @@ impl Maf for Values {
             Values::Constant(c) => Box::new(Values::Constant(c.cloned())),
         }
     }
+
+    fn reciprical(&self) -> Box<dyn Maf> {
+        match self {
+            Values::NAN => Box::new(Values::NAN),
+            Values::Variable(v) => {
+                Term::new(1f64, vec![Box::new(Values::Variable(v.cloned()))], -1f64)
+            }
+            Values::Constant(c) => {
+                Term::new(1f64, vec![Box::new(Values::Constant(c.cloned()))], -1f64)
+            }
+        }
+    }
 }
 
 impl Calculus for Values {

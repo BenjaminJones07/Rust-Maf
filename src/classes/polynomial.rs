@@ -1,4 +1,4 @@
-use super::{Calculus, Expression, Maf};
+use super::{Calculus, Expression, Maf, Term};
 
 #[derive(Debug)]
 pub struct Polynomial {

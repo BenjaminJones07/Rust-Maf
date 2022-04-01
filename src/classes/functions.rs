@@ -32,6 +32,17 @@ impl Maf for Trig {
             Trig::Csc(x) => Box::new(Trig::Csc(x.cloned())),
         }
     }
+
+    fn reciprical(&self) -> Box<dyn Maf> {
+        match self {
+            Trig::Sin(x) => Term::new(1f64, vec![Box::new(Trig::Sin(x.cloned()))], -1f64),
+            Trig::Cos(x) => Term::new(1f64, vec![Box::new(Trig::Cos(x.cloned()))], -1f64),
+            Trig::Tan(x) => Term::new(1f64, vec![Box::new(Trig::Tan(x.cloned()))], -1f64),
+            Trig::Cot(x) => Term::new(1f64, vec![Box::new(Trig::Cot(x.cloned()))], -1f64),
+            Trig::Sec(x) => Term::new(1f64, vec![Box::new(Trig::Sec(x.cloned()))], -1f64),
+            Trig::Csc(x) => Term::new(1f64, vec![Box::new(Trig::Csc(x.cloned()))], -1f64),
+        }
+    }
 }
 
 impl Calculus for Trig {
