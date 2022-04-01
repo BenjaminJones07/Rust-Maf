@@ -9,5 +9,6 @@ pub trait Expression {
 
 pub trait Maf: Expression + Calculus + std::fmt::Display + std::fmt::Debug {
     fn neg(&self) -> Box<dyn Maf>;
+    fn reciprical(&self) -> Box<dyn Maf>;
     fn cloned(&self) -> Box<dyn Maf>;
 }

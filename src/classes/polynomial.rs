@@ -25,6 +25,14 @@ impl Maf for Polynomial {
         .collect::<Vec<Box<dyn Maf>>>(),
     )
   }
+
+  fn reciprical(&self) -> Box<dyn Maf> {
+      Term::new(
+          1f64,
+          vec![self.cloned()],
+          -1f64,
+      )
+  }
 }
 
 impl Polynomial {

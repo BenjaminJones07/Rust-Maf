@@ -11,8 +11,8 @@ impl Maf for Term {
     fn neg(&self) -> Box<dyn Maf> {
         Term::new(
             -self.coef,
-            self.vf.iter().map(|x| x.neg()).collect(),
-            -self.exp,
+            self.vf,
+            self.exp,
         )
     }
 
@@ -21,6 +21,14 @@ impl Maf for Term {
             self.coef,
             self.vf.iter().map(|x| x.cloned()).collect(),
             self.exp,
+        )
+    }
+
+    fn reciprical(&self) -> Box<dyn Maf> {
+        Term::new(
+            self.coef,
+            self.vf,
+            -self.exp,
         )
     }
 }
