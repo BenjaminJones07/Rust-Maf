@@ -1,7 +1,12 @@
+mod classes;
+
 #[cfg(test)]
 mod tests {
-  #[test]
-  fn it_works() {
-    assert_eq!(2 + 2, 4);
-  }
+    use crate::classes::structures::term::Term;
+
+    #[test]
+    fn it_works() {
+        Term::new(1f64, vec![], 1f64);
+        assert_eq!(2 + 2, 4);
+    }
 }
